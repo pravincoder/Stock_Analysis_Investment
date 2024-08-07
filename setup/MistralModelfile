@@ -1,0 +1,9 @@
+FROM mistral
+
+# Set the parameters
+PARAMETER temperature 0.8
+PARAMETER stop Result
+PARAMETER num_ctx 4096
+
+# Set a custom system message to specify the behaviour of the model
+SYSTEM """"""

@@ -1,0 +1,8 @@
+FROM llama3
+
+# Set the parameters
+PARAMETER temperature 0.8
+PARAMETER stop Result
+
+# Set a custom system message to specify the behaviour of the model
+SYSTEM """"""
