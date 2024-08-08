@@ -15,15 +15,17 @@ from langchain_groq import ChatGroq
 
 llm = ChatGroq(
     model = 'llama-3.1-70b-versatile',
-    api_key='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'
+    api_key='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' # Add Your API Key from (https://console.groq.com/keys) & this key is Revoked
 )
 
 """ llm = ChatOpenAI(
     model='gpt-3.5-turbo',
     api_key=os.getenv('OPENAI_API_KEY')
 ) #(If you are using ChatGPT) """
-class Stock_bot_agents(): 
+
+class Stock_bot_agents: 
     def stock_anaylsis(self):
+        """Agent for Stock Analysis"""
         return Agent(
             role = "Stock Analysis",
             goal = "To create a report on stock analysis.",
@@ -34,10 +36,11 @@ class Stock_bot_agents():
             You must try to keep a professional tone and should meet the given Requirements.
             You will get $1000 as a bonus if you complete the task within 3 iterations.
             """),
-            verbose=True,llm=llm,allow_delegation=False
+            verbose=True,llm=llm,allow_delegation=True
         )
     
     def investment_analysis(self):
+        """Agent for Investment Analysis"""
         return Agent(
             role = "Stock Report",
             goal = "To create a report of the Investment analysis.",
@@ -49,5 +52,5 @@ class Stock_bot_agents():
 
             You will get $1000 as a bonus if you complete the task within 3 iterations.                                       
             """),
-            verbose=True,llm = llm,allow_delegation=False
+            verbose=True,llm = llm,allow_delegation=True
         )

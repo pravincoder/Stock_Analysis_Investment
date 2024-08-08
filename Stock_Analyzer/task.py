@@ -2,7 +2,7 @@
 from textwrap import dedent
 from crewai import Task  # Assuming Task is defined in some_module
 
-class Stock_bot():
+class Stock_bot:
     def stock_analysis(self,agent,stock_name):
         return Task(
             description = dedent(f"""

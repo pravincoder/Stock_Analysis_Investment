@@ -6,11 +6,11 @@ from agents import Stock_bot_agents
 import requests
 
 def main():
+    """Main function to run the Stock Analysis Bot"""
     load_dotenv()
-
     print("#### -----WELCOME TO STOCK Investment and Analysis BOT -----####")
     print("------_____________________________________------")
-    print("Enter the stock name you want to analyze Ex :- Apple,TCS,Tata Motors etc :-")
+    print("Enter the stock name you want to analyze :- ")
     
     stock = input()
     print(f"Stock name entered: {stock}")
@@ -61,14 +61,17 @@ def main():
         ],verbose=True,max_rpm=29
     )   
     result_stock_analysis = stock_analysis_crew.kickoff()
-    print(result_stock_analysis)
+    result_investment_analysis = investment_analysis_crew.kickoff()
+    #print(result_stock_analysis)
+    #print(result_investment_analysis)
+
     # Save the result in a md file
     result_stock_analysis = str(result_stock_analysis)
     with open(f"../Generated_reports/stock_analysis_{stock}.md", "w") as file:
         file.write(result_stock_analysis)
-    result_investment_analysis = investment_analysis_crew.kickoff()
-    print(result_investment_analysis)
-    # Save the result in a md file  
+
+    
+    # Save the result in a md file 
     result_investment_analysis = str(result_investment_analysis)
     with open(f"../Generated_reports/investment_analysis_{stock}.md", "w") as file:
         file.write(result_investment_analysis)
