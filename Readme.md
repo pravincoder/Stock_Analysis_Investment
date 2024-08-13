@@ -1,0 +1,147 @@
+
+# Project Name: Multi-Agent Stock Investment and Analysis Platform
+
+## Overview
+
+This project is a robust and scalable multi-agent stock investment and analysis platform built using a **Flask** backend and a **Next.js** frontend, leveraging **CrewAI** for sophisticated multi-agent interactions. The platform is designed to provide detailed insights and recommendations for stock investments by utilizing a multi-agent approach, enabling users to make informed decisions even with limited prior knowledge of stocks and market analysis.
+
+## Table of Contents
+
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Installation](#installation)
+- [Usage](#usage)
+- [API Endpoints](#api-endpoints)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact](#contact)
+
+## Features
+
+- **Multi-Agent Analysis**: Utilizes CrewAI to deploy multiple agents for in-depth stock analysis and investment recommendations.
+- **User-Friendly Interface**: Intuitive and responsive interface built with Next.js to enhance user experience.
+- **Real-Time Data**: Provides real-time stock data and insights to aid in decision-making.
+- **Customizable Dashboards**: Users can customize their dashboards to focus on the stocks and metrics most relevant to them.
+- **Secure and Scalable**: Flask backend ensures the platform is secure and can scale as needed.
+
+## Tech Stack
+
+- **Backend**: Flask
+- **Frontend**: Next.js
+- **AI/ML Integration**: CrewAI,LangChain
+- **Database**: None (For Now)
+- **APIs**: YahooFinance Api using yfinance Package
+- **Env**:Conda
+
+## Installation
+
+### Prerequisites
+
+- Python 3.8+
+- Node.js 14+
+- npm or yarn
+- Conda 20+
+
+### Backend Setup
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/pravincoder/Stock_investment_Analysis_Agent.git
+   ```
+2. Navigate to the Main directory:
+   ```bash
+   cd Stock_investment_Analysis_Agent/Stock_Analyzer
+   ```
+3. Create  a conda environment:
+   ```bash
+   conda env create -f environment.yaml
+   ```
+4. Activate the Conda Environment:
+   ```bash
+   conda activate crew
+   ```
+5. Run the Flask development server:
+   ```bash
+   python main.py
+   ```
+
+### Frontend Setup
+
+1. Navigate to the frontend directory:
+   ```bash
+   cd nextjs_app
+   ```
+2. Install the dependencies:
+   ```bash
+   npm install
+   ```
+3. Run the Next.js development server:
+   ```bash
+   npm run dev
+   ```
+
+### `.env` File Setup
+
+```dotenv
+# API Key for GROQ
+GROQ_API_KEY=your_groq_api_key_here
+
+# API Key for OpenAI
+OPENAI_API_KEY=your_openai_api_key_here
+
+# Base URL for OpenAI API (default for local setup)
+OPENAI_API_BASE=http://localhost:11434/v1
+
+# Model name for OpenAI (adjust based on available models)
+OPENAI_MODEL_NAME=mistral:latest
+
+# Optional: API Key for LangChain
+LANGCHAIN_API_KEY=your_langchain_api_key_here
+
+# Optional: Enable LangChain tracing
+LANGCHAIN_TRACING_V2=true
+```
+## Usage
+
+Once the servers are running, you can access the application in your browser by navigating to `http://localhost:3000`. 
+
+- **Dashboard**: Begin by exploring the dashboard for a quick overview of stock market trends.
+- **Stock Analysis**: Use the analysis tools to select specific stocks and view detailed insights provided by the AI agents.
+- **Recommendations**: Get tailored investment recommendations based on your portfolio and risk profile.
+
+## API Endpoints
+
+The Flask backend exposes several API endpoints that can be used for data retrieval and interaction:
+
+- `GET /api/stocks`: Fetches the latest stock data.
+- `POST /api/analyze`: Triggers an in-depth analysis for a selected stock.
+- `GET /api/recommendations`: Retrieves investment recommendations.
+  
+(Detailed documentation for each endpoint can be provided here.)
+
+## Contributing
+
+We welcome contributions! To get started:
+
+1. Fork the repository.
+2. Create a new feature branch (`git checkout -b feature-name`).
+3. Commit your changes (`git commit -m 'Add some feature'`).
+4. Push to the branch (`git push origin feature-name`).
+5. Open a pull request.
+
+Please ensure your code adheres to the project's coding standards and passes all tests.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Contact
+
+For any questions, issues, or suggestions, please contact:
+
+- **Project Maintainer**: [Pravin Maurya](mailto:pravincoder@gmail.com)
+- **GitHub**: [Your Username](https://github.com/pravincoder)
+
+---
+
+This README provides a comprehensive overview of the project, including setup instructions and usage details. It ensures that contributors and users can easily get started with the platform and understand its key functionalities.
