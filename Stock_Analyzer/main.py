@@ -1,84 +1,86 @@
 import logging
 from dotenv import load_dotenv
+from flask import Flask, jsonify, request
+from flask_cors import CORS
 from crewai import Crew
 from task import Stock_bot
 from agents import Stock_bot_agents
 import requests
 
-def main():
-    """Main function to run the Stock Analysis Bot"""
-    load_dotenv()
-    print("#### -----WELCOME TO STOCK Investment and Analysis BOT -----####")
-    print("------_____________________________________------")
-    print("Enter the stock name you want to analyze :- ")
-    
-    stock = input()
-    print(f"Stock name entered: {stock}")
+app = Flask(__name__)
+CORS(app)
 
-    # Get Stock Symbol
+def get_stock_symbol(stock_name):
+    """Fetch the stock symbol from Yahoo Finance"""
     try:
-        # Strip the stock name of any leading or trailing whitespaces
-        stock = stock.replace(" ", "")
-        print(f"Searching for Stock Symbol of {stock}....")
+        stock_name = stock_name.replace(" ", "")
         url = "https://query2.finance.yahoo.com/v1/finance/search"
         user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
-        params = {"q": stock, "quotes_count": 1}
-        res = requests.get(url=url, params=params, headers={'User-Agent': user_agent})
+        params = {"q": stock_name, "quotes_count": 1}
+        res = requests.get(url=url, params=params, headers={"User-Agent": user_agent})
+        res.raise_for_status()  # This will raise an exception for HTTP errors
         data = res.json()
-        stock_symbol = data['quotes'][0]['symbol']
-        print(f"Stock Symbol: {stock_symbol}")
-    except: 
-        print("Stock Symbol not found")
-        
+        stock_symbol = data["quotes"][0]["symbol"]
+        return stock_symbol
+    except (requests.RequestException, IndexError) as e:
+        logging.error(f"Failed to fetch stock symbol for {stock_name}: {e}")
+        return None
+
+def generate_reports(stock_symbol):
+    """Generate stock analysis and investment analysis reports"""
     tasks = Stock_bot()
     agent = Stock_bot_agents()
 
     # Create agents
-    stock_analysis = agent.stock_anaylsis()
-    investment_analysis = agent.investment_analysis()
+    stock_analysis = agent.stock_analysis(stock_symbol)
+    investment_analysis = agent.investment_analysis(stock_symbol)
 
     # Create tasks
-    stock_analysis_task = tasks.stock_analysis(stock_analysis,stock_symbol)
-    investment_analysis_task = tasks.investment_analysis(investment_analysis,stock_symbol)
+    stock_analysis_task = tasks.stock_analysis(stock_analysis, stock_symbol)
+    investment_analysis_task = tasks.investment_analysis(investment_analysis, stock_symbol)
+
     # Execute tasks
-    print("Creating Crew instance >>>>")
-    
     stock_analysis_crew = Crew(
-        agents=[
-            stock_analysis,
-        ],
-        tasks=[
-            stock_analysis_task,
-        ],verbose=True,max_rpm=29
+        agents=[stock_analysis],
+        tasks=[stock_analysis_task],
+        verbose=True,
+        max_rpm=29,
     )
 
     investment_analysis_crew = Crew(
-        agents=[
-            investment_analysis,
-        ],
-        tasks=[
-            investment_analysis_task,
-        ],verbose=True,max_rpm=29
-    )   
+        agents=[investment_analysis],
+        tasks=[investment_analysis_task],
+        verbose=True,
+        max_rpm=29,
+    )
+
     result_stock_analysis = stock_analysis_crew.kickoff()
     result_investment_analysis = investment_analysis_crew.kickoff()
-    #print(result_stock_analysis)
-    #print(result_investment_analysis)
 
-    # Save the result in a md file
-    result_stock_analysis = str(result_stock_analysis)
-    with open(f"../Generated_reports/stock_analysis_{stock}.md", "w") as file:
-        file.write(result_stock_analysis)
+    return str(result_stock_analysis), str(result_investment_analysis)
 
-    
-    # Save the result in a md file 
-    result_investment_analysis = str(result_investment_analysis)
-    with open(f"../Generated_reports/investment_analysis_{stock}.md", "w") as file:
-        file.write(result_investment_analysis)
+@app.route('/analyze-stock', methods=['POST'])
+def analyze_stock():
+    """API endpoint to analyze a stock and return reports in Markdown format"""
+    data = request.get_json()
+    stock_name = data.get("stock_name")
+    logging.info(f"Received request to analyze stock: {stock_name}")
 
-    print("#### ------ THANK YOU FOR USING STOCK ANALYSIS BOT ------####")
+    if not stock_name:
+        return jsonify({"error": "Stock name is required"}), 400
 
-    
-if __name__ == '__main__':
-    main()
-    
+    stock_symbol = get_stock_symbol(stock_name)
+    if not stock_symbol:
+        return jsonify({"error": "Stock symbol not found"}), 404
+
+    stock_report, investment_report = generate_reports(stock_symbol)
+
+    return jsonify({
+        "stock_report": stock_report,
+        "investment_report": investment_report
+    })
+
+if __name__ == "__main__":
+    load_dotenv()
+    logging.basicConfig(level=logging.INFO)
+    app.run(debug=True)
