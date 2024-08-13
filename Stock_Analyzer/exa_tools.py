@@ -2,12 +2,14 @@ import os
 from exa_py import Exa
 from langchain.tools import tool
 
+
 class ExaSearchTool:
     @tool
     def search(stock: str):
         """Search for a webpage based on the stock.
         query: (str)."""
-        return ExaSearchTool._exa().search(query=stock, use_autoprompt=True, num_results=3
+        return ExaSearchTool._exa().search(
+            query=stock, use_autoprompt=True, num_results=3
         )
 
     @tool
@@ -43,4 +45,3 @@ class ExaSearchTool:
 
     def _exa():
         return Exa(api_key=os.environ["EXA_API_KEY"])
-

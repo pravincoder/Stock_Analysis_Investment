@@ -1,8 +1,9 @@
-
 import langchain.tools as tool
 import json
 import yfinance as yf
 from crewai_tools import tool
+
+
 class YFinanceTools:
     @tool
     def get_current_stock_price(symbol: str) -> str:
@@ -17,10 +18,17 @@ class YFinanceTools:
         try:
             stock = yf.Ticker(symbol)
             # Use "regularMarketPrice" for regular market hours, or "currentPrice" for pre/post market
-            current_price = stock.info.get("regularMarketPrice", stock.info.get("currentPrice"))
-            return f"{current_price:.4f}" if current_price else f"Could not fetch current price for {symbol}"
+            current_price = stock.info.get(
+                "regularMarketPrice", stock.info.get("currentPrice")
+            )
+            return (
+                f"{current_price:.4f}"
+                if current_price
+                else f"Could not fetch current price for {symbol}"
+            )
         except Exception as e:
             return f"Error fetching current price for {symbol}: {e}"
+
     @tool
     def get_company_info(symbol: str) -> str:
         """Use this function to get company information and overview for a given stock symbol.
@@ -57,7 +65,9 @@ class YFinanceTools:
                 "Website": company_info_full.get("website"),
                 "Summary": company_info_full.get("longBusinessSummary"),
                 "Analyst Recommendation": company_info_full.get("recommendationKey"),
-                "Number Of Analyst Opinions": company_info_full.get("numberOfAnalystOpinions"),
+                "Number Of Analyst Opinions": company_info_full.get(
+                    "numberOfAnalystOpinions"
+                ),
                 "Employees": company_info_full.get("fullTimeEmployees"),
                 "Total Cash": company_info_full.get("totalCash"),
                 "Free Cash flow": company_info_full.get("freeCashflow"),
@@ -70,16 +80,19 @@ class YFinanceTools:
             return json.dumps(company_info_cleaned, indent=2)
         except Exception as e:
             return f"Error fetching company profile for {symbol}: {e}"
+
     @tool
-    def get_historical_stock_prices(symbol: str, period: str = "1mo", interval: str = "1d") -> str:
+    def get_historical_stock_prices(
+        symbol: str, period: str = "1mo", interval: str = "1d"
+    ) -> str:
         """Use this function to get the historical stock price for a given symbol.
 
         Args:
             symbol (str): The stock symbol.
             period (str): The period for which to retrieve historical prices. Defaults to "1mo".
-                        Valid periods: 1d,5d,1mo,3mo.
+                        Valid periods: 1d,5d,1mo,3mo,6mo only.
             interval (str): The interval between data points. Defaults to "1d".
-                        Valid intervals: 1d,5d,1wk,1mo.
+                        Valid intervals: 1d,5d,1wk,1mo,3mo only.
 
         Returns:
           str: The current stock price or error message.
@@ -90,6 +103,7 @@ class YFinanceTools:
             return historical_price.to_json(orient="index")
         except Exception as e:
             return f"Error fetching historical prices for {symbol}: {e}"
+
     @tool
     def get_stock_fundamentals(symbol: str) -> str:
         """Use this function to get fundamental data for a given stock symbol yfinance API.
@@ -133,6 +147,7 @@ class YFinanceTools:
             return json.dumps(fundamentals, indent=2)
         except Exception as e:
             return f"Error getting fundamentals for {symbol}: {e}"
+
     @tool
     def get_income_statements(symbol: str) -> str:
         """Use this function to get income statements for a given stock symbol.
@@ -149,6 +164,7 @@ class YFinanceTools:
             return financials.to_json(orient="index")
         except Exception as e:
             return f"Error fetching income statements for {symbol}: {e}"
+
     @tool
     def get_key_financial_ratios(symbol: str) -> str:
         """Use this function to get key financial ratios for a given stock symbol.
@@ -165,6 +181,7 @@ class YFinanceTools:
             return json.dumps(key_ratios, indent=2)
         except Exception as e:
             return f"Error fetching key financial ratios for {symbol}: {e}"
+
     @tool
     def get_analyst_recommendations(symbol: str) -> str:
         """Use this function to get analyst recommendations for a given stock symbol.
@@ -181,6 +198,7 @@ class YFinanceTools:
             return recommendations.to_json(orient="index")
         except Exception as e:
             return f"Error fetching analyst recommendations for {symbol}: {e}"
+
     @tool
     def get_company_news(symbol: str, num_stories: int = 3) -> str:
         """Use this function to get company news and press releases for a given stock symbol.
@@ -197,6 +215,7 @@ class YFinanceTools:
             return json.dumps(news[:num_stories], indent=2)
         except Exception as e:
             return f"Error fetching company news for {symbol}: {e}"
+
     @tool
     def get_technical_indicators(symbol: str, period: str = "3mo") -> str:
         """Use this function to get technical indicators for a given stock symbol.
@@ -216,7 +235,7 @@ class YFinanceTools:
             return f"Error fetching technical indicators for {symbol}: {e}"
 
     def tools():
-        return([
+        return [
             YFinanceTools().get_current_stock_price,
             YFinanceTools().get_company_info,
             YFinanceTools().get_historical_stock_prices,
@@ -225,8 +244,5 @@ class YFinanceTools:
             YFinanceTools().get_key_financial_ratios,
             YFinanceTools().get_analyst_recommendations,
             YFinanceTools().get_company_news,
-            YFinanceTools().get_technical_indicators
-        ])
-
-
-        
+            YFinanceTools().get_technical_indicators,
+        ]
