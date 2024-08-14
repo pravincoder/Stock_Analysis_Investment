@@ -72,8 +72,9 @@ This project is a robust and scalable multi-agent stock investment and analysis 
    ```
 2. Install the dependencies:
    ```bash
-   npm install 
+   npm install npx create-next-app@latest --js --tailwind --eslint
    ```
+   Keep every option default while setting up the app.
 3. Run the Next.js development server:
    ```bash
    npm run dev
