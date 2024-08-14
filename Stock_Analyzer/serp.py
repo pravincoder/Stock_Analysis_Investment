@@ -13,6 +13,11 @@ params_finance = {"engine": "google_finance", "api_key": SERPAPI_API_KEY}
 class SerpApi:
     @tool("Stock Details")
     def stock_details(stock: str):
+        """Get stock details from the SERP API
+        Args:
+            stock (str): The stock name
+        Returns:
+            dict: The stock details"""
 
         params_search["q"] = stock.get("title")
         sear = search(params_search)
@@ -21,6 +26,12 @@ class SerpApi:
 
     @tool("Stock News")
     def stock_news(stock: str, num_articles: int):
+        """Get stock news from the SERP API
+        Args:
+            stock (str): The stock name
+            num_articles (int): The number of articles to return
+        Returns:
+            list: The list of news articles"""
 
         params_news["q"] = stock
         sear = search(params_news)
@@ -40,7 +51,11 @@ class SerpApi:
 
     @tool("Stock Market Data")
     def stock_market_data(stock: str):
-
+        """Get stock market data from the SERP API
+        Args:
+            stock (str): The stock name
+        Returns:
+            dict: The stock market data"""
         params_finance["q"] = stock
         sear = search(params_finance)
         results = sear.as_dict()
@@ -62,6 +77,11 @@ class SerpApi:
 
     @tool("Stock Financials")
     def stock_financials(stock: str):
+        """Get stock financials from the SERP API
+        Args:
+            stock (str): The stock name
+        Returns:
+            dict: The stock financials"""
 
         params_search["q"] = f"{stock} stock financials"
         sear = search(params_search)

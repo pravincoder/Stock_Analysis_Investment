@@ -21,7 +21,6 @@ This project is a robust and scalable multi-agent stock investment and analysis 
 - **Multi-Agent Analysis**: Utilizes CrewAI to deploy multiple agents for in-depth stock analysis and investment recommendations.
 - **User-Friendly Interface**: Intuitive and responsive interface built with Next.js to enhance user experience.
 - **Real-Time Data**: Provides real-time stock data and insights to aid in decision-making.
-- **Customizable Dashboards**: Users can customize their dashboards to focus on the stocks and metrics most relevant to them.
 - **Secure and Scalable**: Flask backend ensures the platform is secure and can scale as needed.
 
 ## Tech Stack
@@ -73,15 +72,28 @@ This project is a robust and scalable multi-agent stock investment and analysis 
    ```
 2. Install the dependencies:
    ```bash
-   npm install
+   npm install 
    ```
 3. Run the Next.js development server:
    ```bash
    npm run dev
    ```
+Note:- You need to execute both the backend Flask app and the Frontend as we are using cross connection with flask-cors.
+
+### Output
+
+Once you have sucessfully created every step above and the .env file you will some thing same as below.
+
+![IMG1](https://github.com/pravincoder/Stock_investment_Analysis_Crew/blob/main/assets/screenshots/HOMEPAGE.PNG)
+
+
+![IMG2](https://github.com/pravincoder/Stock_investment_Analysis_Crew/blob/main/assets/screenshots/ANALYSIS_REPORT.PNG)
+
+
+![IMG3](https://github.com/pravincoder/Stock_investment_Analysis_Crew/blob/main/assets/screenshots/INVESTMENT_REPORT.PNG)
 
 ### `.env` File Setup
-
+Create  a .env file and add the below code :- (Make sure to add the api keys from the specified platforms)
 ```dotenv
 # API Key for GROQ
 GROQ_API_KEY=your_groq_api_key_here
@@ -101,6 +113,12 @@ LANGCHAIN_API_KEY=your_langchain_api_key_here
 # Optional: Enable LangChain tracing
 LANGCHAIN_TRACING_V2=true
 ```
+
+### (Optional) Using Local LLM with Ollama
+- Use the  files in the setup folder to create a LLama3 , Mistral8b ... or your own LLM model 
+
+- Commands/steps to setup ollama llm comming soon!
+
 ## Usage
 
 Once the servers are running, you can access the application in your browser by navigating to `http://localhost:3000`. 
@@ -113,11 +131,12 @@ Once the servers are running, you can access the application in your browser by 
 
 The Flask backend exposes several API endpoints that can be used for data retrieval and interaction:
 
-- `GET /api/stocks`: Fetches the latest stock data.
-- `POST /api/analyze`: Triggers an in-depth analysis for a selected stock.
-- `GET /api/recommendations`: Retrieves investment recommendations.
+
+- `POST /analyze-stock`: Analyze a stock and return Analysis and Investment reports in Markdown format.
+
+
   
-(Detailed documentation for each endpoint can be provided here.)
+(Detailed documentation for each endpoint can be provided here. In near future we might make a seperate api endpoints for both reports.)
 
 ## Contributing
 
@@ -140,8 +159,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 For any questions, issues, or suggestions, please contact:
 
 - **Project Maintainer**: [Pravin Maurya](mailto:pravincoder@gmail.com)
-- **GitHub**: [Your Username](https://github.com/pravincoder)
+- **GitHub**: [PravinCoder](https://github.com/pravincoder)
 
 ---
-
-This README provides a comprehensive overview of the project, including setup instructions and usage details. It ensures that contributors and users can easily get started with the platform and understand its key functionalities.

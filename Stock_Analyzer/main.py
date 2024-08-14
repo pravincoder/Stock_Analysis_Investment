@@ -11,7 +11,13 @@ app = Flask(__name__)
 CORS(app)
 
 def get_stock_symbol(stock_name):
-    """Fetch the stock symbol from Yahoo Finance"""
+    """Fetch the stock symbol from Yahoo Finance
+    
+    Args:
+        stock_name (str): The name of the stock
+    Returns: 
+    stock_symbol (str): The stock symbol
+    """
     try:
         stock_name = stock_name.replace(" ", "")
         url = "https://query2.finance.yahoo.com/v1/finance/search"
@@ -27,7 +33,13 @@ def get_stock_symbol(stock_name):
         return None
 
 def generate_reports(stock_symbol):
-    """Generate stock analysis and investment analysis reports"""
+    """Generate stock analysis and investment analysis reports
+    Args:
+        stock_symbol (str): The stock symbol
+    Returns:
+    stock_report (str): The stock analysis report
+    investment_report (str): The investment analysis report
+    """
     tasks = Stock_bot()
     agent = Stock_bot_agents()
 
