@@ -8,44 +8,64 @@ class Stock_bot:
         return Task(
             description=dedent(
                 f"""
-            As a stock analyst you are working for a Goldman Sachs company.
-            you have been assigned to create a report of the analysis of the {stock_name} stock.
-            FOR LARGE NUMBER LIKE 345634760 AS 3.4 CORERS,LIKEWISE FOR LAKHS AND THOUSANDS IN THE BELOW REPORT.
-            The report Template :- 
-                # Title :- Stock Analysis Report of {stock_name}
-                ## Basic Info
-                (REQUIREMENTS:- NOT MORE THAN 200 WORDS  IN PARAGRAPHS) 
-                (REQUIREMENTS:- A TABLE THAT HAS THE FOLLOWING DETAILS
-                STOCK NAME, SECTOR, MARKET CAP, P/E RATIO, EPS, DIVIDEND YIELD AND AVERAGE VOLUME OF THE STOCK
-                Note :- The Market Cap should be in Crores, P/E Ratio, EPS and Dividend Yield should be upto 2 decimal places and Average Volume should be in Thousands.If some thing is missing then just ignore it.) 
-                ## News Analysis
-                (REQUIREMENTS:- The Latest News of the stock in Table with the date.
-                - News must have a Title and a small Description. Article link if present in a .md link format.)
-                ## Events Analysis
-                (The Upcomming if any  or include passed major events,dividents,etc of the stock in Table with the date.)
-                ## Trend Analysis
-                (REQUIREMENTS:- Try to include the trend analysis of the stock for the past 3 months , by reading various indicator
-                - Make a Table that include 3 months trends based on the indicators like SMA,EMA,RSI,MACD,etc.
-                - Include the Buy/Sell/Hold Signal based on the indicators.
-                - Include the Current Price and the 52 Week High and Low Price of the stock.
-                - Include the Volume of the stock and the Average Volume of the stock.)
-                ## Financial Table
-                (REQUIREMENTS:- A TABLE THAT HAS THE All The Important and Key Financial Metrics of the stock like Revenue,Net Income,Operating Income,etc)
-                ## Financial Analysis
-                (REQUIREMENTS:- Make a Table that include the Financial Analysis of the stock for the past 3 years)
-                ## CONCLUSION
-                (REQUIREMENTS:- Must Include a Short and Long Term view seperatly highlighted in points, NOT MORE THAN 200 WORDS for Both point)"""
+            As a Senior Stock Analyst at Goldman Sachs, your task is to produce a comprehensive and 
+            professional report analyzing the stock performance of {stock_name}.
+            Important Tip :- Read the recieved json data and extract the required information to generate the report.
+            Report Structure :- 
+            #Stock Analysis Report: {stock_name}
+            ## Basic Information:
+            -Length: 
+                -Maximum 200 words in concise paragraphs.
+            -Data Presentation:
+                -Provide a table with the following details: Stock Name, Sector, Market Cap (in Crores), P/E Ratio, EPS, Dividend Yield, and Average Volume (in Thousands).
+                -Formatting:
+                    -Ensure Market Cap is in Crores, P/E Ratio, EPS, and Dividend Yield are rounded to two decimal places.
+                    -Average Volume should be displayed in Thousands.
+                (Note: If any data point is missing, exclude it without affecting the report's quality.)
+            ## News Analysis:
+            -Content: 
+                -Summarize the latest news related to the stock.
+                -Table Format:
+                    -Include Date, News Title, Brief Description, and an optional article link formatted as a Markdown link.
+            ## Events Analysis:
+            -Content: Analyze upcoming or significant past events related to the stock.
+                -Table Format:
+                    -Include Date, Event Title, and Description (e.g., dividends, earnings reports).
+            ## Trend Analysis:
+            -Time Frame: Focus on the past 3 months.
+            -Content: Analyze trends using key indicators like SMA, EMA, RSI, and MACD.
+                -Table Format:
+                    -Include indicators with corresponding trends and suggest Buy/Sell/Hold signals.
+                    -Add the Current Price, 52-Week High/Low, Volume, and Average Volume of the stock.
+            ## Financial Table:
+            -Content: 
+                -Present key financial metrics such as Revenue, Net Income, Operating Income, etc.
+                -Table Format: 
+                    -Clear and structured, focusing on essential data.
+            ## Financial Analysis:
+            -Content:  
+                -Provide an in-depth analysis of the stock's financials based on data from the Financial Agent.
+                -Table Format: 
+                    -Highlight critical insights derived from the financial metrics.
+            ## Conclusion:
+            -Content: Offer a concise summary of the stock's outlook.
+                -Format:
+                    -Short-Term View: Bullet points, max 100 words.
+                    -Long-Term View: Bullet points, max 100 words.
+        You will be paid a large bonus if your report is accurate and well-structured.
+
+                    """
             ),
             expected_output=dedent(
                 f"""
             A detailed stock analysis of the {stock_name} stock.
             The analysis should include the following:
-            - Title :- Stock Analysis Report of {stock_name}
-            - Basic Info
-            - News Analysis
-            - Trend Analysis
-            - Financial Analysis
-            - Conclusion
+            # Stock Analysis Report :- {stock_name}
+            ## Basic Info
+            ## News Analysis
+            ## Trend Analysis
+            ## Financial Analysis
+            ## Conclusion
         """
             ),
             verbose=True,
@@ -58,21 +78,48 @@ class Stock_bot:
         return Task(
             description=dedent(
                 f"""
-            As a stock analyst you are working for a Goldman Sachs company.
-            you have been assigned to create a report of the analysis of the stock.
-            The report Template :- 
-                # Title :- Investment Analysis Report of {stock_name}
-                ## Pros/Positives :-
-                (REQUIREMENTS:- NOT MORE THAN 200 WORDS  IN BULLET POINTS)
-                ## Cons/Negatives :-
-                (REQUIREMENTS:- NOT MORE THAN 200 WORDS  IN BULLET POINTS)
-                ## Future Prospects :-
-                (REQUIREMENTS:- NOT MORE THAN 200 WORDS  IN BULLET POINTS)
-                ## Risk Analysis :-
-                (REQUIREMENTS:- NOT MORE THAN 200 WORDS  IN BULLET POINTS)
-                ## Remommendation
-                (REQUIREMENTS:- STATE BUY/SELL/HOLD based on Current Value,market and Highlight it, EXPLAIN WHY IN 50-100 WORDS)
-                NOTE:-Avoid Adding Caution and Disclaimer in the report.
+            As a Senior Investment Analyst at Goldman Sachs, 
+            your task is to develop a detailed report analyzing the investment potential 
+            of {stock_name}.
+            Important Tip :- Read the recieved json data and extract the required information to generate the report.
+            Report Structure:
+            # Investment Analysis Report: {stock_name}
+            ## Pros/Positives:
+            -Content: 
+                -Highlight the key advantages and strengths of the stock.
+                -Format:
+                    -Present in bullet points.
+                    -Length: 
+                        -Maximum 200 words.
+            ## Cons/Negatives:
+            Content: 
+                -Identify the main drawbacks or risks associated with the stock.
+                -Format:
+                    -Present in bullet points.
+                    -Length: 
+                        -Maximum 200 words.
+            ## Future Prospects:
+            Content: 
+                -Discuss potential growth opportunities and future developments for the stock.
+                -Format:
+                    -Present in bullet points.
+                    -Length: 
+                        -Maximum 200 words.
+            ## Risk Analysis:
+            Content: 
+                -Evaluate the risks associated with investing in the stock.
+                -Format:
+                    -Present in bullet points.
+                    -Length: 
+                        -Maximum 200 words.
+            ## Recommendation:
+            Content: 
+                -Provide a clear investment recommendation.
+                -Format:
+                    -Highlight the recommendation (Buy/Sell/Hold) based on the current market value.
+                    -Explanation: 
+                        -Justify the recommendation in 50-100 words.
+        You will be paid a large bonus if your report is accurate and well-structured.
         """
             ),
             expected_output=dedent(

@@ -4,8 +4,8 @@ import remarkGfm from 'remark-gfm'; // GitHub Flavored Markdown support
 
 const AnalysisAndInvestment = ({ stockReport, investmentReport }) => {
     return (
-        <div className="flex flex-col mt-8 space-y-4">
-            <div className="w-full border border-gray-300 rounded-lg p-6 bg-white shadow-lg">
+        <div className="flex flex-col items-center mt-8 space-y-4">
+            <div className="w-full max-w-screen-md border border-gray-300 rounded-lg p-6 bg-white shadow-lg">
                 <h3 className="text-xl font-semibold mb-4">Stock Analysis</h3>
                 <ReactMarkdown
                     className="prose prose-lg"
@@ -14,7 +14,7 @@ const AnalysisAndInvestment = ({ stockReport, investmentReport }) => {
                     {stockReport}
                 </ReactMarkdown>
             </div>
-            <div className="w-full border border-gray-300 rounded-lg p-6 bg-white shadow-lg">
+            <div className="w-full max-w-screen-md border border-gray-300 rounded-lg p-6 bg-white shadow-lg">
                 <h3 className="text-xl font-semibold mb-4">Investment Analysis</h3>
                 <ReactMarkdown
                     className="prose prose-lg"
