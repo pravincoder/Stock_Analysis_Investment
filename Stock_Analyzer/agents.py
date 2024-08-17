@@ -17,7 +17,7 @@ from langchain_groq import ChatGroq
 ) #(If you are using Ollama) """
 
 llm = ChatGroq(
-    model="llama-3.1-70b-versatile",
+    model="llama-3.1-8b-instant",
     api_key=os.environ['GROQ_API_KEY'],  # Add Your API Key from (https://console.groq.com/keys) & this key is Revoked
 )
 

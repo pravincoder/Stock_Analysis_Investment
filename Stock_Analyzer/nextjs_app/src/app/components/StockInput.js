@@ -1,15 +1,19 @@
 import React, { useState } from "react";
 
-const StockInput = ({ onResult, onError }) => {
+const StockInput = ({ onAnalysisResult, onInvestmentResult, onError }) => {
   const [stockName, setStockName] = useState("");
   const [loading, setLoading] = useState(false);
+  const [mode, setMode] = useState("analyze"); // Mode can be "analyze" or "invest"
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
+    const endpoint =
+      mode === "analyze" ? "analyze-stock" : "invest-stock";
+
     try {
-      const response = await fetch("http://127.0.0.1:5000/analyze-stock", {
+      const response = await fetch(`http://127.0.0.1:5000/${endpoint}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -20,7 +24,11 @@ const StockInput = ({ onResult, onError }) => {
       const data = await response.json();
 
       if (response.ok) {
-        onResult(data.stock_report, data.investment_report);
+        if (mode === "analyze") {
+          onAnalysisResult(data.analysis_report);
+        } else {
+          onInvestmentResult(data.investment_report);
+        }
       } else {
         onError(data.error || "Something went wrong");
       }
@@ -45,12 +53,36 @@ const StockInput = ({ onResult, onError }) => {
         </label>
         <input
           type="text"
-          placeholder="Enter stock you want to analyze"
+          placeholder="Enter stock you want to analyze or invest"
           value={stockName}
           onChange={(e) => setStockName(e.target.value)}
           className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           disabled={loading}
         />
+        <div className="flex space-x-4">
+          <button
+            type="button"
+            onClick={() => setMode("analyze")}
+            className={`${
+              mode === "analyze"
+                ? "bg-blue-600 text-white"
+                : "bg-gray-300 text-gray-700"
+            } px-4 py-2 rounded-lg`}
+          >
+            Analyze
+          </button>
+          <button
+            type="button"
+            onClick={() => setMode("invest")}
+            className={`${
+              mode === "invest"
+                ? "bg-blue-600 text-white"
+                : "bg-gray-300 text-gray-700"
+            } px-4 py-2 rounded-lg`}
+          >
+            Invest
+          </button>
+        </div>
         <button
           type="submit"
           className={`w-full text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 shadow-lg font-medium rounded-lg text-sm px-5 py-2.5 text-center ${
@@ -60,7 +92,7 @@ const StockInput = ({ onResult, onError }) => {
           }`}
           disabled={loading}
         >
-          {loading ? "Analyzing..." : "Analyze"}
+          {loading ? "Processing..." : mode === "analyze" ? "Analyze" : "Invest"}
         </button>
       </form>
     </div>

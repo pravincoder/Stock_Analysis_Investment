@@ -19,7 +19,7 @@ class Stock_bot:
                 STOCK NAME, SECTOR, MARKET CAP, P/E RATIO, EPS, DIVIDEND YIELD AND AVERAGE VOLUME OF THE STOCK
                 Note :- The Market Cap should be in Crores, P/E Ratio, EPS and Dividend Yield should be upto 2 decimal places and Average Volume should be in Thousands.If some thing is missing then just ignore it.) 
                 ## News Analysis
-                (REQUIREMENTS:- The Latest News of the stock in Table with the date.
+                (REQUIREMENTS:- The Latest News of the stock we are analysising in Table with the date.
                 - News must have a Title and a small Description. Article link if present in a .md link format.)
                 ## Events Analysis
                 (The Upcomming if any  or include passed major events,dividents,etc of the stock in Table with the date.)

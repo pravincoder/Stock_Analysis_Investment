@@ -83,7 +83,7 @@ class YFinanceTools:
 
     @tool
     def get_historical_stock_prices(
-        symbol: str, period: str = "1mo", interval: str = "1d"
+        symbol: str, period: str = "3mo", interval: str = "1d"
     ) -> str:
         """Use this function to get the historical stock price for a given symbol.
 
