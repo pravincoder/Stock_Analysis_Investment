@@ -32,24 +32,21 @@ def get_stock_symbol(stock_name):
         logging.error(f"Failed to fetch stock symbol for {stock_name}: {e}")
         return None
 
-def generate_reports(stock_symbol):
-    """Generate stock analysis and investment analysis reports
+def generate_analysis_reports(stock_symbol):
+    """Generate stock analysis reports
     Args:
         stock_symbol (str): The stock symbol
     Returns:
     stock_report (str): The stock analysis report
-    investment_report (str): The investment analysis report
     """
     tasks = Stock_bot()
     agent = Stock_bot_agents()
 
     # Create agents
     stock_analysis = agent.stock_analysis(stock_symbol)
-    investment_analysis = agent.investment_analysis(stock_symbol)
-
+   
     # Create tasks
     stock_analysis_task = tasks.stock_analysis(stock_analysis, stock_symbol)
-    investment_analysis_task = tasks.investment_analysis(investment_analysis, stock_symbol)
 
     # Execute tasks
     stock_analysis_crew = Crew(
@@ -59,6 +56,27 @@ def generate_reports(stock_symbol):
         max_rpm=29,
     )
 
+    result_stock_analysis = stock_analysis_crew.kickoff()
+    
+    return str(result_stock_analysis)
+
+def generate_investment_reports(stock_symbol):
+    """Generate stock investment reports
+    Args:
+        stock_symbol (str): The stock symbol
+    Returns:
+        stock_report (str): The stock investment report
+        """
+    tasks = Stock_bot()
+    agent = Stock_bot_agents()
+
+    # Create agents
+    investment_analysis = agent.investment_analysis(stock_symbol)
+
+    # Create tasks
+    investment_analysis_task = tasks.investment_analysis(investment_analysis, stock_symbol)
+
+    # Execute tasks
     investment_analysis_crew = Crew(
         agents=[investment_analysis],
         tasks=[investment_analysis_task],
@@ -66,10 +84,11 @@ def generate_reports(stock_symbol):
         max_rpm=29,
     )
 
-    result_stock_analysis = stock_analysis_crew.kickoff()
     result_investment_analysis = investment_analysis_crew.kickoff()
 
-    return str(result_stock_analysis), str(result_investment_analysis)
+    return str(result_investment_analysis)
+
+
 
 @app.route('/analyze-stock', methods=['POST'])
 def analyze_stock():
@@ -85,11 +104,31 @@ def analyze_stock():
     if not stock_symbol:
         return jsonify({"error": "Stock symbol not found"}), 404
 
-    stock_report, investment_report = generate_reports(stock_symbol)
+    analysis_report = generate_analysis_reports(stock_symbol)
 
     return jsonify({
-        "stock_report": stock_report,
-        "investment_report": investment_report
+        "analysis_report": analysis_report,
+    })
+
+    
+@app.route('/invest-stock', methods=['POST'])
+def invest_stock():
+    """API endpoint to analyze a stock and return reports in Markdown format"""
+    data = request.get_json()
+    stock_name = data.get("stock_name")
+    logging.info(f"Received request to invest stock: {stock_name}")
+
+    if not stock_name:
+        return jsonify({"error": "Stock name is required"}), 400
+
+    stock_symbol = get_stock_symbol(stock_name)
+    if not stock_symbol:
+        return jsonify({"error": "Stock symbol not found"}), 404
+
+    investment_report = generate_investment_reports(stock_symbol)
+
+    return jsonify({
+        "investment_report": investment_report,
     })
 
 if __name__ == "__main__":
