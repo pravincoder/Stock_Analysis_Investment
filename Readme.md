@@ -108,7 +108,7 @@ LANGCHAIN_TRACING_V2=true
 Once you have sucessfully created every step above and the .env file. 
 You can also Play around .
 
-[![Watch Demo](https://github.com/pravincoder/Stock_investment_Analysis_Crew/blob/main/assets/screenshots/HOMEPAGE.PNG)](https://www.youtube.com/watch?v=V_CisIPGA-g)
+https://github.com/user-attachments/assets/301e94d2-8baf-421b-9090-178746651e91
 
 
 ### (Optional) Using Local LLM with Ollama
