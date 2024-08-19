@@ -9,15 +9,15 @@ load_dotenv()
 from langchain_groq import ChatGroq
 
 # from serp import SerpApi
-
-""" llm = ChatOpenAI(
+"""
+llm = ChatOpenAI(
     base_url='http://localhost:11434/v1',
     model='mistral:latest',
     api_key='NA'
-) #(If you are using Ollama) """
-
+) #(If you are using Ollama) 
+"""
 llm = ChatGroq(
-    model="llama-3.1-8b-instant",
+    model="llama-3.1-70b-versatile",
     api_key=os.environ['GROQ_API_KEY'],  # Add Your API Key from (https://console.groq.com/keys) & this key is Revoked
 )
 
@@ -44,7 +44,6 @@ class Stock_bot_agents:
             ),
             verbose=True,
             llm=llm,
-            allow_delegation=True,
         )
 
     def investment_analysis(self,stock_name):
@@ -64,5 +63,4 @@ class Stock_bot_agents:
             ),
             verbose=True,
             llm=llm,
-            allow_delegation=True,
         )

@@ -11,6 +11,8 @@
   "dependencies": {
     "@tailwindcss/typography": "^0.5.14",
     "axios": "^1.7.4",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^2.5.1",
     "next": "14.2.5",
     "react": "^18",
     "react-dom": "^18",

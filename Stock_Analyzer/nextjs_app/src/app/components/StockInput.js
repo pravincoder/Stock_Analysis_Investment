@@ -9,8 +9,7 @@ const StockInput = ({ onAnalysisResult, onInvestmentResult, onError }) => {
     e.preventDefault();
     setLoading(true);
 
-    const endpoint =
-      mode === "analyze" ? "analyze-stock" : "invest-stock";
+    const endpoint = mode === "analyze" ? "analyze-stock" : "invest-stock";
 
     try {
       const response = await fetch(`http://127.0.0.1:5000/${endpoint}`, {
@@ -43,11 +42,11 @@ const StockInput = ({ onAnalysisResult, onInvestmentResult, onError }) => {
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <form
         onSubmit={handleSubmit}
-        className="bg-white shadow-lg rounded-lg p-8 flex flex-col items-center space-y-4 w-full max-w-md"
+        className="bg-white shadow-lg rounded-lg p-10 flex flex-col items-center space-y-6 w-full max-w-lg"
       >
         <label
           htmlFor="stock-name"
-          className="text-lg font-semibold text-gray-700"
+          className="text-xl font-semibold text-gray-700"
         >
           Enter a stock name
         </label>
@@ -56,10 +55,10 @@ const StockInput = ({ onAnalysisResult, onInvestmentResult, onError }) => {
           placeholder="Enter stock you want to analyze or invest"
           value={stockName}
           onChange={(e) => setStockName(e.target.value)}
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full px-6 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg"
           disabled={loading}
         />
-        <div className="flex space-x-4">
+        <div className="flex space-x-6">
           <button
             type="button"
             onClick={() => setMode("analyze")}
@@ -67,7 +66,7 @@ const StockInput = ({ onAnalysisResult, onInvestmentResult, onError }) => {
               mode === "analyze"
                 ? "bg-blue-600 text-white"
                 : "bg-gray-300 text-gray-700"
-            } px-4 py-2 rounded-lg`}
+            } px-6 py-3 rounded-lg text-lg font-medium`}
           >
             Analyze
           </button>
@@ -78,14 +77,14 @@ const StockInput = ({ onAnalysisResult, onInvestmentResult, onError }) => {
               mode === "invest"
                 ? "bg-blue-600 text-white"
                 : "bg-gray-300 text-gray-700"
-            } px-4 py-2 rounded-lg`}
+            } px-6 py-3 rounded-lg text-lg font-medium`}
           >
             Invest
           </button>
         </div>
         <button
           type="submit"
-          className={`w-full text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 shadow-lg font-medium rounded-lg text-sm px-5 py-2.5 text-center ${
+          className={`w-full text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 shadow-lg font-medium rounded-lg text-lg px-6 py-3 text-center ${
             loading
               ? "cursor-not-allowed opacity-50"
               : "hover:shadow-blue-500/50"

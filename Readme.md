@@ -81,18 +81,6 @@ This project is a robust and scalable multi-agent stock investment and analysis 
    ```
 Note:- You need to execute both the backend Flask app and the Frontend as we are using cross connection with flask-cors.
 
-### Output
-
-Once you have sucessfully created every step above and the .env file you will some thing same as below.
-
-![IMG1](https://github.com/pravincoder/Stock_investment_Analysis_Crew/blob/main/assets/screenshots/HOMEPAGE.PNG)
-
-
-![IMG2](https://github.com/pravincoder/Stock_investment_Analysis_Crew/blob/main/assets/screenshots/ANALYSIS_REPORT.PNG)
-
-
-![IMG3](https://github.com/pravincoder/Stock_investment_Analysis_Crew/blob/main/assets/screenshots/INVESTMENT_REPORT.PNG)
-
 ### `.env` File Setup
 Create  a .env file and add the below code :- (Make sure to add the api keys from the specified platforms)
 ```dotenv
@@ -107,6 +95,16 @@ OPENAI_API_BASE=http://localhost:11434/v1
 
 # Model name for OpenAI (adjust based on available models)
 OPENAI_MODEL_NAME=mistral:latest
+
+
+### Output(Working Demo)
+
+Once you have sucessfully created every step above and the .env file. 
+You can also Play around Like this :- 
+
+[![Demo Video](https://github.com/pravincoder/Stock_investment_Analysis_Crew/blob/main/assets/screenshots/HOMEPAGE.PNG)(https://github.com/pravincoder/Stock_investment_Analysis_Crew/blob/main/assets/demo_vid/Stock_Guru_Ai)]
+
+
 
 # Optional: API Key for LangChain
 LANGCHAIN_API_KEY=your_langchain_api_key_here

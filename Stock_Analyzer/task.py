@@ -52,7 +52,7 @@ class Stock_bot:
                 -Format:
                     -Short-Term View: Bullet points, max 100 words.
                     -Long-Term View: Bullet points, max 100 words.
-        You will be paid a large bonus if your report is accurate and well-structured.
+        You will be paid a large bonus if your complete report is accurate and well-structured.
 
                     """
             ),
@@ -66,11 +66,11 @@ class Stock_bot:
             ## Trend Analysis
             ## Financial Analysis
             ## Conclusion
+            Complete the report in MarkDown Format.
         """
             ),
             verbose=True,
             agent=agent,
-            
         )
     
     # Investment Analysis Tasks
@@ -119,6 +119,8 @@ class Stock_bot:
                     -Highlight the recommendation (Buy/Sell/Hold) based on the current market value.
                     -Explanation: 
                         -Justify the recommendation in 50-100 words.
+                        -Include key factors influencing the decision.
+        Note :- Do Not include Disclaimers and Warnings in the report.
         You will be paid a large bonus if your report is accurate and well-structured.
         """
             ),
@@ -136,5 +138,4 @@ class Stock_bot:
             ),
             agent=agent,
             verbose=True,
-            
         )
