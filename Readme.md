@@ -96,22 +96,20 @@ OPENAI_API_BASE=http://localhost:11434/v1
 # Model name for OpenAI (adjust based on available models)
 OPENAI_MODEL_NAME=mistral:latest
 
-
-### Output(Working Demo)
-
-Once you have sucessfully created every step above and the .env file. 
-You can also Play around Like this :- 
-
-[![Demo Video](https://github.com/pravincoder/Stock_investment_Analysis_Crew/blob/main/assets/screenshots/HOMEPAGE.PNG)(https://github.com/pravincoder/Stock_investment_Analysis_Crew/blob/main/assets/demo_vid/Stock_Guru_Ai)]
-
-
-
 # Optional: API Key for LangChain
 LANGCHAIN_API_KEY=your_langchain_api_key_here
 
 # Optional: Enable LangChain tracing
 LANGCHAIN_TRACING_V2=true
 ```
+
+### Output(Working Demo)
+
+Once you have sucessfully created every step above and the .env file. 
+You can also Play around .
+
+[![Watch Demo](https://github.com/pravincoder/Stock_investment_Analysis_Crew/blob/main/assets/screenshots/HOMEPAGE.PNG)](https://www.youtube.com/watch?v=V_CisIPGA-g)
+
 
 ### (Optional) Using Local LLM with Ollama
 - Use the  files in the setup folder to create a LLama3 , Mistral8b ... or your own LLM model 
