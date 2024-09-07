@@ -1,15 +1,20 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
+
+// Lazy load jsPDF and html2canvas
+const jsPDF = lazy(() => import('jspdf'));
+const html2canvas = lazy(() => import('html2canvas'));
 
 const Analysis = ({ analysis_report }) => {
-
     const handleDownloadPdf = async () => {
+        // Load jsPDF and html2canvas dynamically
+        const { default: jsPDF } = await import('jspdf');
+        const { default: html2canvas } = await import('html2canvas');
+
         const input = document.getElementById('report-content');
         const pdf = new jsPDF('p', 'mm', 'a4');
-        
+
         await html2canvas(input, {
             scale: 2, // Higher scale for better quality
             useCORS: true, // Enable CORS to allow cross-domain images
@@ -50,12 +55,14 @@ const Analysis = ({ analysis_report }) => {
                     </ReactMarkdown>
                 </div>
                 <div className="flex justify-center mt-4">
-                    <button
-                        onClick={handleDownloadPdf}
-                        className="bg-blue-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-600"
-                    >
-                        Download as PDF
-                    </button>
+                    <Suspense fallback={<div>Loading...</div>}>
+                        <button
+                            onClick={handleDownloadPdf}
+                            className="bg-blue-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-600"
+                        >
+                            Download as PDF
+                        </button>
+                    </Suspense>
                 </div>
             </div>
         </div>

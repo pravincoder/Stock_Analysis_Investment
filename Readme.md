@@ -1,6 +1,14 @@
 
 # Project Name: Multi-Agent Stock Investment and Analysis Platform
 
+### Output(Working Demo)
+
+Once you have sucessfully created every step above and the .env file. 
+You can also Play around .
+
+
+https://github.com/user-attachments/assets/26c7ec92-955e-4a6e-98af-ac9a8404d9f3
+
 ## Overview
 
 This project is a robust and scalable multi-agent stock investment and analysis platform built using a **Flask** backend and a **Next.js** frontend, leveraging **CrewAI** for sophisticated multi-agent interactions. The platform is designed to provide detailed insights and recommendations for stock investments by utilizing a multi-agent approach, enabling users to make informed decisions even with limited prior knowledge of stocks and market analysis.
@@ -102,14 +110,6 @@ LANGCHAIN_API_KEY=your_langchain_api_key_here
 # Optional: Enable LangChain tracing
 LANGCHAIN_TRACING_V2=true
 ```
-
-### Output(Working Demo)
-
-Once you have sucessfully created every step above and the .env file. 
-You can also Play around .
-
-https://github.com/user-attachments/assets/301e94d2-8baf-421b-9090-178746651e91
-
 
 ### (Optional) Using Local LLM with Ollama
 - Use the  files in the setup folder to create a LLama3 , Mistral8b ... or your own LLM model 

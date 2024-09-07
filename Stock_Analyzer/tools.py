@@ -2,7 +2,11 @@ import langchain.tools as tool
 import json
 import yfinance as yf
 from crewai_tools import tool
-
+from matplotlib import pyplot as plt
+import numpy as np
+import math
+from chart_data import ChartData
+from pandas import Timestamp
 
 class YFinanceTools:
     @tool

@@ -1,12 +1,16 @@
 import logging
 from dotenv import load_dotenv
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request , send_file
 from flask_cors import CORS
 from crewai import Crew
 from task import Stock_bot
 from agents import Stock_bot_agents
 import requests
-
+import base64
+from PIL import Image
+import io
+import os
+from chart_data import ChartData
 app = Flask(__name__)
 CORS(app)
 
@@ -37,16 +41,20 @@ def generate_analysis_reports(stock_symbol):
     Args:
         stock_symbol (str): The stock symbol
     Returns:
-    stock_report (str): The stock analysis report
+    stock_report (str): The stock analysis report with financial chart
     """
     tasks = Stock_bot()
     agent = Stock_bot_agents()
 
+    # Generate financial chart
+    graph_path = ChartData.generate_chart(stock_symbol)
+    with open(graph_path, "rb") as financial_chart:
+        base64_financial_chart = base64.b64encode(financial_chart.read()).decode("utf-8")
+
     # Create agents
     stock_analysis = agent.stock_analysis(stock_symbol)
-   
     # Create tasks
-    stock_analysis_task = tasks.stock_analysis(stock_analysis, stock_symbol)
+    stock_analysis_task = tasks.stock_analysis(stock_analysis, stock_symbol,base64_financial_chart)
 
     # Execute tasks
     stock_analysis_crew = Crew(
@@ -55,9 +63,8 @@ def generate_analysis_reports(stock_symbol):
         verbose=True,
         max_rpm=29,
     )
-
     result_stock_analysis = stock_analysis_crew.kickoff()
-    
+
     return str(result_stock_analysis)
 
 def generate_investment_reports(stock_symbol):
@@ -105,12 +112,26 @@ def analyze_stock():
         return jsonify({"error": "Stock symbol not found"}), 404
 
     analysis_report = generate_analysis_reports(stock_symbol)
-
+    
     return jsonify({
         "analysis_report": analysis_report,
     })
 
+@app.route('/chart/<stock_name>', methods=['GET'])
+def chart(stock_name):
+    """API endpoint to analyze a stock and return reports in Markdown format"""
     
+    logging.info(f"Received request to analyze stock: {stock_name}")
+
+    if not stock_name:
+        return jsonify({"error": "Stock name is required"}), 400
+
+    stock_symbol = get_stock_symbol(stock_name)
+    if not stock_symbol:
+        return jsonify({"error": "Stock symbol not found"}), 404
+    image = ChartData.generate_chart(stock_symbol)
+    return send_file(image, mimetype='image/png')
+
 @app.route('/invest-stock', methods=['POST'])
 def invest_stock():
     """API endpoint to analyze a stock and return reports in Markdown format"""

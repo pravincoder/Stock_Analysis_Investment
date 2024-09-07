@@ -5,27 +5,26 @@ from tools import YFinanceTools
 from langchain_openai import ChatOpenAI  # (Remove '#' If you are using OpenAI)
 from dotenv import load_dotenv
 load_dotenv()
-# from exa_tools import ExaSearchTool
 from langchain_groq import ChatGroq
 
-# from serp import SerpApi
 """
 llm = ChatOpenAI(
     base_url='http://localhost:11434/v1',
     model='mistral:latest',
     api_key='NA'
-) #(If you are using Ollama) 
+) #(If you are using Ollama)
 """
-llm = ChatGroq(
-    model="llama-3.1-70b-versatile",
-    api_key=os.environ['GROQ_API_KEY'],  # Add Your API Key from (https://console.groq.com/keys) & this key is Revoked
-)
-
-""" llm = ChatOpenAI(
+"""
+llm = ChatOpenAI(
     model='gpt-3.5-turbo',
     api_key=os.getenv('OPENAI_API_KEY')
-) #(If you are using ChatGPT) """
+) #(If you are using ChatGPT) 
+""" 
 
+llm = ChatGroq(
+    model="llama-3.1-70b-versatile",
+    api_key=os.environ['GROQ_API_KEY'],  # Add Your API Key from (https://console.groq.com/keys)
+)
 
 class Stock_bot_agents:
     def stock_analysis(self,stock_name):

@@ -1,10 +1,10 @@
 from textwrap import dedent
 from crewai import Task
-  
+
 
 class Stock_bot:
     # Stock Analysis Tasks
-    def stock_analysis(self, agent, stock_name):
+    def stock_analysis(self, agent, stock_name, base64_image):
         return Task(
             description=dedent(
                 f"""
@@ -22,12 +22,12 @@ class Stock_bot:
                     -Ensure Market Cap is in Crores, P/E Ratio, EPS, and Dividend Yield are rounded to two decimal places.
                     -Average Volume should be displayed in Thousands.
                 (Note: If any data point is missing, exclude it without affecting the report's quality.)
-            ## News Analysis:
+            ## News Analysis(If Available else Skip):
             -Content: 
                 -Summarize the latest news related to the stock.
                 -Table Format:
                     -Include Date, News Title, Brief Description, and an optional article link formatted as a Markdown link.
-            ## Events Analysis:
+            ## Events Analysis(if Avaiable else Skip):
             -Content: Analyze upcoming or significant past events related to the stock.
                 -Table Format:
                     -Include Date, Event Title, and Description (e.g., dividends, earnings reports).
@@ -37,21 +37,24 @@ class Stock_bot:
                 -Table Format:
                     -Include indicators with corresponding trends and suggest Buy/Sell/Hold signals.
                     -Add the Current Price, 52-Week High/Low, Volume, and Average Volume of the stock.
-            ## Financial Table:
+            ## Financial Graphs:
             -Content: 
-                -Present key financial metrics such as Revenue, Net Income, Operating Income, etc.
-                -Table Format: 
-                    -Clear and structured, focusing on essential data.
+                -Create a Grouped bar Graph of financial metrics Net Income,Total Revenue,Gross Profit,Total Expenses by using the necessary tools .
+                -Markdown Output: 
+                    -![Grouped Bar Chart](http://127.0.0.1:5000/chart/{stock_name})
             ## Financial Analysis:
             -Content:  
                 -Provide an in-depth analysis of the stock's financials based on data from the Financial Agent.
                 -Table Format: 
                     -Highlight critical insights derived from the financial metrics.
+            ## Analyst Recommendations(if Available Else Skip):
+                - Table of Recommendations: Include the TimeFame and Recommendations.
             ## Conclusion:
             -Content: Offer a concise summary of the stock's outlook.
                 -Format:
                     -Short-Term View: Bullet points, max 100 words.
                     -Long-Term View: Bullet points, max 100 words.
+        You should not include any disclaimers or warnings in the report.
         You will be paid a large bonus if your complete report is accurate and well-structured.
 
                     """
@@ -64,6 +67,7 @@ class Stock_bot:
             ## Basic Info
             ## News Analysis
             ## Trend Analysis
+            ## Financial Graphs
             ## Financial Analysis
             ## Conclusion
             Complete the report in MarkDown Format.

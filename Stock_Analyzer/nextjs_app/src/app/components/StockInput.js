@@ -4,10 +4,18 @@ const StockInput = ({ onAnalysisResult, onInvestmentResult, onError }) => {
   const [stockName, setStockName] = useState("");
   const [loading, setLoading] = useState(false);
   const [mode, setMode] = useState("analyze"); // Mode can be "analyze" or "invest"
+  const [errorMessage, setErrorMessage] = useState(""); // To store error messages
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    if (!stockName.trim()) { // Check for empty input
+      setErrorMessage("Please enter a stock name.");
+      return;
+    }
+
     setLoading(true);
+    setErrorMessage(""); // Clear any previous error messages
 
     const endpoint = mode === "analyze" ? "analyze-stock" : "invest-stock";
 
@@ -29,9 +37,11 @@ const StockInput = ({ onAnalysisResult, onInvestmentResult, onError }) => {
           onInvestmentResult(data.investment_report);
         }
       } else {
+        setErrorMessage(data.error || "Something went wrong"); // Display server error
         onError(data.error || "Something went wrong");
       }
     } catch (error) {
+      setErrorMessage("Unable to connect to the server"); // Handle connection errors
       onError("Unable to connect to the server");
     } finally {
       setLoading(false);
@@ -58,6 +68,11 @@ const StockInput = ({ onAnalysisResult, onInvestmentResult, onError }) => {
           className="w-full px-6 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg"
           disabled={loading}
         />
+        {errorMessage && (
+          <div className="text-red-500 text-sm mt-2">
+            {errorMessage}
+          </div>
+        )}
         <div className="flex space-x-6">
           <button
             type="button"
