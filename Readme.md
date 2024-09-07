@@ -3,7 +3,7 @@
 
 ### Output(Working Demo)
 
-Once you have sucessfully created every step above and the .env file. 
+Once you have sucessfully done every step mentioned below.  
 You can also Play around .
 
 
