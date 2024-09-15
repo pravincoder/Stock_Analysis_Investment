@@ -1,0 +1,27 @@
+# Use a lightweight Python base image
+FROM continuumio/miniconda3:latest
+
+# Set the working directory
+WORKDIR /app
+
+# Copy the environment.yml file to the working directory
+COPY environment.yml /app/
+
+# Create the environment using the environment.yml file
+RUN conda env create -f environment.yml
+
+# Activate the environment and install Flask
+SHELL ["conda", "run", "-n", "stock_guru", "/bin/bash", "-c"]
+RUN pip install flask
+
+# Copy the rest of the backend application code
+COPY . /app/
+
+# Set the FLASK_APP environment variable
+ENV FLASK_APP=app.py
+
+# Expose the port Flask runs on
+EXPOSE 5000
+
+# Run the application with the conda environment activated
+CMD ["conda", "run", "-n", "stock_guru", "flask", "run", "--host=0.0.0.0"]

@@ -1,4 +1,3 @@
-import langchain.tools as tool
 import json
 import yfinance as yf
 from crewai_tools import tool

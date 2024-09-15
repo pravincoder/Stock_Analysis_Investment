@@ -2,7 +2,6 @@ from textwrap import dedent
 import os
 from crewai import Agent
 from tools import YFinanceTools
-from langchain_openai import ChatOpenAI  # (Remove '#' If you are using OpenAI)
 from dotenv import load_dotenv
 load_dotenv()
 from langchain_groq import ChatGroq

@@ -1,0 +1,24 @@
+version: '3'
+services:
+  flask_backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.backend
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./backend:/app
+    environment:
+      - FLASK_ENV=development
+      - GROQ_API_KEY=${GROQ_API_KEY}
+      - LANGCHAIN_API_KEY = ${LANGCHAIN_API_KEY}
+      - LANGCHAIN_TRACING_V2 = ${LANGCHAIN_TRACING_V2}
+      - LANGCHAIN_PROJECT = 'stock-analysis-bot'
+  nextjs_frontend:
+    build:
+      context: ./nextjs_app
+      dockerfile: Dockerfile.frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./nextjs_app:/app

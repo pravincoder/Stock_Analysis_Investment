@@ -4,7 +4,7 @@ from crewai import Task
 
 class Stock_bot:
     # Stock Analysis Tasks
-    def stock_analysis(self, agent, stock_name, base64_image):
+    def stock_analysis(self, agent, stock_name):
         return Task(
             description=dedent(
                 f"""

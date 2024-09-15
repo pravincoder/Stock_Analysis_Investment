@@ -49,7 +49,7 @@ const StockInput = ({ onAnalysisResult, onInvestmentResult, onError }) => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+    <div className="flex flex-col items-center min-h-screen bg-gray-100">
       <form
         onSubmit={handleSubmit}
         className="bg-white shadow-lg rounded-lg p-10 flex flex-col items-center space-y-6 w-full max-w-lg"
@@ -109,6 +109,21 @@ const StockInput = ({ onAnalysisResult, onInvestmentResult, onError }) => {
           {loading ? "Processing..." : mode === "analyze" ? "Analyze" : "Invest"}
         </button>
       </form>
+      {/* Suggestion section */}
+      <div className="mt-4 text-gray-600 text-sm">
+        <p>
+          Having trouble finding the stock? You can visit{" "}
+          <a
+            href="https://finance.yahoo.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-500 hover:underline"
+          >
+            Yahoo Finance
+          </a>{" "}
+          to search for the ticker symbol.
+        </p>
+      </div>
     </div>
   );
 };
