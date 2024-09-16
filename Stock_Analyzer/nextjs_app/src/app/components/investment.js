@@ -1,15 +1,23 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 
-const Investment = ({ investment_report}) => {
+const Investment = ({ investment_report }) => {
+    const reportRef = useRef(null); // Reference for the report content
+
+    // Autoscroll to the report when investment_report is updated
+    useEffect(() => {
+        if (investment_report && reportRef.current) {
+            reportRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
+    }, [investment_report]);
 
     const handleDownloadPdf = async () => {
         const input = document.getElementById('report-content');
         const pdf = new jsPDF('p', 'mm', 'a4');
-        
+
         await html2canvas(input, {
             scale: 2, // Higher scale for better quality
             useCORS: true, // Enable CORS to allow cross-domain images
@@ -41,11 +49,8 @@ const Investment = ({ investment_report}) => {
         <div className="flex justify-center mt-8">
             <div className="w-full max-w-3xl border border-gray-300 rounded-lg p-6 bg-white shadow-lg">
                 <h3 className="text-2xl font-semibold mb-4 text-center">Stock Investment</h3>
-                <div id="report-content">
-                    <ReactMarkdown
-                        className="prose prose-lg"
-                        remarkPlugins={[remarkGfm]}
-                    >
+                <div id="report-content" ref={reportRef}>
+                    <ReactMarkdown className="prose prose-lg" remarkPlugins={[remarkGfm]}>
                         {investment_report}
                     </ReactMarkdown>
                 </div>

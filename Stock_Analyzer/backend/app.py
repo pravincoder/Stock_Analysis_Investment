@@ -6,8 +6,6 @@ from crewai import Crew
 from task import Stock_bot
 from agents import Stock_bot_agents
 import requests
-import base64
-
 from chart_data import ChartData
 
 # Initialize Flask app
@@ -39,7 +37,7 @@ def get_stock_symbol(stock_name):
         user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
         params = {"q": stock_name, "quotes_count": 1}
         res = requests.get(url=url, params=params, headers={"User-Agent": user_agent})
-        res.raise_for_status()  # This will raise an exception for HTTP errors
+        res.raise_for_status()  
         data = res.json()
         stock_symbol = data["quotes"][0]["symbol"]
         logger.info(f"Fetched stock symbol for {stock_name}: {stock_symbol}")

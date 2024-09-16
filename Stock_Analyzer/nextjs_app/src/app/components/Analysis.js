@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from 'react';
+import React, { lazy, Suspense, useState, useEffect, useRef } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
@@ -7,8 +7,17 @@ const jsPDF = lazy(() => import('jspdf'));
 const html2canvas = lazy(() => import('html2canvas'));
 
 const Analysis = ({ analysis_report }) => {
+    const reportRef = useRef(null); // Reference to the report
+
+    // Autoscroll when analysis_report is updated
+    useEffect(() => {
+        if (analysis_report && reportRef.current) {
+            reportRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
+    }, [analysis_report]);
+
     const handleDownloadPdf = async () => {
-        // Load jsPDF and html2canvas dynamically
+        // Dynamically import jsPDF and html2canvas
         const { default: jsPDF } = await import('jspdf');
         const { default: html2canvas } = await import('html2canvas');
 
@@ -44,26 +53,23 @@ const Analysis = ({ analysis_report }) => {
 
     return (
         <div className="flex justify-center mt-8">
-            <div className="w-full max-w-3xl border border-gray-300 rounded-lg p-6 bg-white shadow-lg">
-                <h3 className="text-2xl font-semibold mb-4 text-center">Stock Analysis</h3>
-                <div id="report-content">
-                    <ReactMarkdown
-                        className="prose prose-lg"
-                        remarkPlugins={[remarkGfm]}
+        <div className="w-full max-w-3xl border border-gray-300 rounded-lg p-6 bg-white shadow-lg">
+            <h3 className="text-2xl font-semibold mb-4 text-center">Stock Analysis</h3>
+            <div id="report-content" ref={reportRef}>
+                <ReactMarkdown className="prose prose-lg" remarkPlugins={[remarkGfm]}>
+                    {analysis_report}
+                </ReactMarkdown>
+            </div>
+            <div className="flex justify-center mt-4">
+                <Suspense fallback={<div>Loading...</div>}>
+                    <button
+                        onClick={handleDownloadPdf}
+                        className="bg-blue-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-600"
                     >
-                        {analysis_report}
-                    </ReactMarkdown>
-                </div>
-                <div className="flex justify-center mt-4">
-                    <Suspense fallback={<div>Loading...</div>}>
-                        <button
-                            onClick={handleDownloadPdf}
-                            className="bg-blue-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-600"
-                        >
-                            Download as PDF
-                        </button>
-                    </Suspense>
-                </div>
+                        Download as PDF
+                    </button>
+                </Suspense>
+            </div>
             </div>
         </div>
     );
