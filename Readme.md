@@ -45,14 +45,14 @@ This project is a robust and scalable multi-agent stock investment and analysis 
 
 #### Prerequisites
 - **Docker**: Make sure Docker is installed on your system. You can download it from the [official Docker website](https://www.docker.com/get-started).
-
-1. Clone the repository: (See Backend Setup Step 1 Command)
-
-2. Change Directory to Stock_Analyzer:- 
+### Steps to Run Using Docker
+1. Clone the repository: See [Backend Setup Step 1 Command](#backend-setup) 
+2. Setup Environments : See [Env Setup](#environment-variable-setup)
+3. Change Directory to Stock_Analyzer:- 
  ```bash 
    cd Stock_investment_Analysis_Crew/Stock_Analyzer
   ```
-3. Docker Build Both Frontend and Backend with Compose (Can even build Frontend and Backend Seperately using *docker build Dockerfile*)
+4.Docker Build Both Frontend and Backend with Compose (Can even build Frontend and Backend Seperately using *docker build Dockerfile*)
 ```bash 
    docker-compose build
   ``` 
@@ -105,6 +105,7 @@ This project is a robust and scalable multi-agent stock investment and analysis 
    ```
 Note:- You need to execute both the backend Flask app and the Frontend as we are using cross connection with flask-cors.
 
+## Environment Variable Setup
 ### `.env` File Setup 
 Create  a .env file and add the below code :- (Make sure to add the api keys from the specified platforms)
 #### *Note:- Use .sample.env by renaming as .env and add your Keys.* 
