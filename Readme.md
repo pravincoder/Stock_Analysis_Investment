@@ -41,6 +41,22 @@ This project is a robust and scalable multi-agent stock investment and analysis 
 - **Env**:Conda
 
 ## Installation
+###  Fast Installation (Via Docker)
+
+#### Prerequisites
+- **Docker**: Make sure Docker is installed on your system. You can download it from the [official Docker website](https://www.docker.com/get-started).
+
+1. Clone the repository: (See Backend Setup Step 1 Command)
+
+2. Change Directory to Stock_Analyzer:- 
+ ```bash 
+   cd Stock_investment_Analysis_Crew/Stock_Analyzer
+  ```
+3. Docker Build Both Frontend and Backend with Compose (Can even build Frontend and Backend Seperately using *docker build Dockerfile*)
+```bash 
+   docker-compose build
+  ``` 
+
 
 ### Prerequisites
 
@@ -89,8 +105,9 @@ This project is a robust and scalable multi-agent stock investment and analysis 
    ```
 Note:- You need to execute both the backend Flask app and the Frontend as we are using cross connection with flask-cors.
 
-### `.env` File Setup
+### `.env` File Setup 
 Create  a .env file and add the below code :- (Make sure to add the api keys from the specified platforms)
+#### *Note:- Use .sample.env by renaming as .env and add your Keys.* 
 ```dotenv
 # API Key for GROQ
 GROQ_API_KEY=your_groq_api_key_here
