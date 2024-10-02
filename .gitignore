@@ -156,3 +156,5 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
+# Graph file 
+Stock_Analyzer/grouped_bar_chart.png

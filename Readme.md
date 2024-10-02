@@ -18,6 +18,8 @@ This project is a robust and scalable multi-agent stock investment and analysis 
 - [Features](#features)
 - [Tech Stack](#tech-stack)
 - [Installation](#installation)
+   - [Fast Installation](#fast-installation-via-docker)
+   - [Normal Installation](#normal-installation)
 - [Usage](#usage)
 - [API Endpoints](#api-endpoints)
 - [Contributing](#contributing)
@@ -56,11 +58,15 @@ This project is a robust and scalable multi-agent stock investment and analysis 
 ```bash 
    docker-compose build
   ``` 
+5.Docker Run build (replace 'up' with 'down' before recreating build)
+```bash 
+   docker-compose up
+  ```
 
-
+## Normal Installation
 ### Prerequisites
 
-- Python 3.8+
+- Python 3.10+
 - Node.js 14+
 - npm or yarn
 - Conda 20+
@@ -77,15 +83,15 @@ This project is a robust and scalable multi-agent stock investment and analysis 
    ```
 3. Create  a conda environment:
    ```bash
-   conda env create -f environment.yaml
+   conda env create -f environment.yml
    ```
 4. Activate the Conda Environment:
    ```bash
-   conda activate crew
+   conda activate stock_guru
    ```
 5. Run the Flask development server:
    ```bash
-   python main.py
+   python app.py
    ```
 
 ### Frontend Setup

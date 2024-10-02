@@ -16,25 +16,20 @@ CORS(app)
 logging.basicConfig(
     level=logging.DEBUG,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.StreamHandler(),  # Log to console
-        logging.FileHandler('app.log')  # Log to file
-    ]
 )
 logger = logging.getLogger(__name__)
 
 def get_stock_symbol(stock_name):
     """Fetch the stock symbol from Yahoo Finance
-    
     Args:
         stock_name (str): The name of the stock
     Returns: 
-    stock_symbol (str): The stock symbol
+        stock_symbol (str): The stock symbol
     """
     try:
-        stock_name = stock_name.replace(" ", "")
+        stock_name = stock_name.replace(" ", " ")
         url = "https://query2.finance.yahoo.com/v1/finance/search"
-        user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+        user_agent = "Chrome/8.0 (Windows NT 10.0; Win64; x64)"
         params = {"q": stock_name, "quotes_count": 1}
         res = requests.get(url=url, params=params, headers={"User-Agent": user_agent})
         res.raise_for_status()  
@@ -51,7 +46,7 @@ def generate_analysis_reports(stock_symbol):
     Args:
         stock_symbol (str): The stock symbol
     Returns:
-    stock_report (str): The stock analysis report with financial chart
+        stock_report (str): The stock analysis report with financial chart
     """
     try:
         tasks = Stock_bot()
