@@ -1,5 +1,4 @@
 import os
-from exa_py import Exa
 from langchain.tools import tool
 
 
@@ -43,5 +42,3 @@ class ExaSearchTool:
             ExaSearchTool.get_contents,
         ]
 
-    def _exa():
-        return Exa(api_key=os.environ["EXA_API_KEY"])

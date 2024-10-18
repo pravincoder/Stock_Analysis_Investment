@@ -4,33 +4,21 @@ from crewai_tools import tool
 from matplotlib import pyplot as plt
 import numpy as np
 import math
-from chart_data import ChartData
+from chart import ChartData
 from pandas import Timestamp
 
-class YFinanceTools:
-    @tool
-    def get_current_stock_price(symbol: str) -> str:
-        """Use this function to get the current stock price for a given symbol.
+def value_to_crores(value: int) -> float:
+        """Convert a value to crores.
 
         Args:
-            symbol (str): The stock symbol.
+            value (int): The value to convert.
 
         Returns:
-            str: The current stock price or error message.
+            float: The value converted to crores.
         """
-        try:
-            stock = yf.Ticker(symbol)
-            # Use "regularMarketPrice" for regular market hours, or "currentPrice" for pre/post market
-            current_price = stock.info.get(
-                "regularMarketPrice", stock.info.get("currentPrice")
-            )
-            return (
-                f"{current_price:.4f}"
-                if current_price
-                else f"Could not fetch current price for {symbol}"
-            )
-        except Exception as e:
-            return f"Error fetching current price for {symbol}: {e}"
+        return round(value / 10 ** 7,2)
+class YFinanceTools:
+    """A collection of tools for fetching financial data using the Yahoo Finance API."""
 
     @tool
     def get_company_info(symbol: str) -> str:
@@ -50,8 +38,8 @@ class YFinanceTools:
             company_info_cleaned = {
                 "Name": company_info_full.get("shortName"),
                 "Symbol": company_info_full.get("symbol"),
-                "Current Stock Price": f"{company_info_full.get('regularMarketPrice', company_info_full.get('currentPrice'))} {company_info_full.get('currency', 'USD')}",
-                "Market Cap": f"{company_info_full.get('marketCap', company_info_full.get('enterpriseValue'))} {company_info_full.get('currency', 'USD')}",
+                "Current Stock Price": f"{company_info_full.get('regularMarketPrice', company_info_full.get('currentPrice'))} ",
+                "Market Cap": f"{value_to_crores(company_info_full.get('marketCap'))+ ' Cr'}",
                 "Sector": company_info_full.get("sector"),
                 "Industry": company_info_full.get("industry"),
                 "Address": company_info_full.get("address1"),
@@ -93,7 +81,7 @@ class YFinanceTools:
         Args:
             symbol (str): The stock symbol.
             period (str): The period for which to retrieve historical prices. Defaults to "1mo".
-                        Valid periods: 1d,5d,1mo,3mo,6mo only.
+                        Valid periods: 1d,5d,1mo,3mo only.
             interval (str): The interval between data points. Defaults to "1d".
                         Valid intervals: 1d,5d,1wk,1mo,3mo only.
 
@@ -138,7 +126,7 @@ class YFinanceTools:
                 "company_name": info.get("longName", ""),
                 "sector": info.get("sector", ""),
                 "industry": info.get("industry", ""),
-                "market_cap": info.get("marketCap", "N/A"),
+                "market_cap": value_to_crores(info.get("marketCap", "N/A")+ ' Cr'),
                 "pe_ratio": info.get("forwardPE", "N/A"),
                 "pb_ratio": info.get("priceToBook", "N/A"),
                 "dividend_yield": info.get("dividendYield", "N/A"),
@@ -239,7 +227,6 @@ class YFinanceTools:
 
     def tools():
         return [
-            YFinanceTools().get_current_stock_price,
             YFinanceTools().get_company_info,
             YFinanceTools().get_historical_stock_prices,
             YFinanceTools().get_stock_fundamentals,

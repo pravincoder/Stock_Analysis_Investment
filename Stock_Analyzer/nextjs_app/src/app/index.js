@@ -38,7 +38,7 @@ export default function Home() {
 
   return (
     <div className="bg-black text-white min-h-screen flex flex-col items-center justify-center">
-      <h1 className="text-3xl font-bold mb-8">Stock Investment And Analysis Agent</h1>
+      <h1 className="text-3xl font-bold mb-8">Stock Guru Ai</h1>
       <form onSubmit={handleSubmit} className="flex flex-col items-center">
         <input
           type="text"

@@ -12,7 +12,7 @@ class Stock_bot:
             professional report analyzing the stock performance of {stock_name}.
             Important Tip :- Read the recieved json data and extract the required information to generate the report.
             Report Structure :- 
-            #Stock Analysis Report: {stock_name}
+            #Stock Analysis Report: Company Name
             ## Basic Information:
             -Length: 
                 -Maximum 200 words in concise paragraphs.
@@ -63,7 +63,7 @@ class Stock_bot:
                 f"""
             A detailed stock analysis of the {stock_name} stock.
             The analysis should include the following:
-            # Stock Analysis Report :- {stock_name}
+            # Stock Analysis Report :- Company Name
             ## Basic Info
             ## News Analysis
             ## Trend Analysis
@@ -87,7 +87,7 @@ class Stock_bot:
             of {stock_name}.
             Important Tip :- Read the recieved json data and extract the required information to generate the report.
             Report Structure:
-            # Investment Analysis Report: {stock_name}
+            # Investment Analysis Report: Company Name
             ## Pros/Positives:
             -Content: 
                 -Highlight the key advantages and strengths of the stock.
@@ -132,7 +132,7 @@ class Stock_bot:
                 f"""
             A detailed stock analysis of the {stock_name} stock must be in MarkDown Format.
             The analysis should include the following:
-            - Title :- Investment Analysis Report of {stock_name}
+            - Title :- Investment Analysis Report of Company Name
             - Pros/Positives
             - Cons/Negatives
             - Future Prospects

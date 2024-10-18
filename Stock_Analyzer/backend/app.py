@@ -1,17 +1,28 @@
 import logging
 from dotenv import load_dotenv
-from flask import Flask, jsonify, request, send_file
+from flask import Flask, jsonify, request, send_file, session, redirect, url_for
 from flask_cors import CORS
 from crewai import Crew
 from task import Stock_bot
 from agents import Stock_bot_agents
 import requests
-from chart_data import ChartData
-
+from chart import ChartData
+import uuid
+import os
+from google_auth_oauthlib.flow import Flow
 # Initialize Flask app
 app = Flask(__name__)
 CORS(app)
+app.secret_key = os.getenv("SECRET_KEY")
 
+# Set google_client_id
+Google_Client_ID = os.getenv("GOOGLE_CLIENT_ID")
+
+flow = Flow.from_client_secrets_file(
+    client_secrets_file= os.path.join(os.getcwd(), '.google_auth.json'),
+    scopes=['https://www.googleapis.com/auth/userinfo.profile', 'https://www.googleapis.com/auth/userinfo.email', 'openid'],
+    redirect_uri='http://localhost:5000/home'
+)
 # Configure logging
 logging.basicConfig(
     level=logging.DEBUG,
@@ -63,6 +74,7 @@ def generate_analysis_reports(stock_symbol):
             tasks=[stock_analysis_task],
             verbose=True,
             max_rpm=29,
+
         )
         result_stock_analysis = stock_analysis_crew.kickoff()
 
@@ -105,7 +117,31 @@ def generate_investment_reports(stock_symbol):
         logger.error(f"Failed to generate investment report for {stock_symbol}: {e}")
         return None
 
+# Login Session check
+def login_session_check(function):
+    def wrapper(*args, **kwargs):
+        if 'google_id' not in session:
+            return redirect(url_for('login'))
+        return function(*args, **kwargs)
+    wrapper.__name__ = function.__name__
+    return wrapper
+
+@app.route('/login')
+def login():
+    session['google_id'] = uuid.uuid4()
+    return redirect(url_for('home'))
+
+@app.route('/logout')
+def logout():
+    session.pop('google_id', None)
+    return redirect(url_for('home'))
+
+@app.route('/')
+def home():
+    return "Welcome to Stock Analyzer API!"
+
 @app.route('/analyze-stock', methods=['POST'])
+@login_session_check
 def analyze_stock():
     """API endpoint to analyze a stock and return reports in Markdown format"""
     data = request.get_json()
@@ -126,6 +162,7 @@ def analyze_stock():
     })
 
 @app.route('/chart/<stock_name>', methods=['GET'])
+@login_session_check
 def chart(stock_name):
     """API endpoint to generate and return a stock chart"""
     logger.info(f"Received request to generate chart for stock: {stock_name}")
@@ -138,7 +175,7 @@ def chart(stock_name):
         return jsonify({"error": "Stock symbol not found"}), 404
     
     try:
-        image = ChartData.generate_chart(stock_symbol)
+        image = ChartData.generate_bar_chart(stock_symbol)
         logger.info(f"Generated chart for {stock_symbol}")
         return send_file(image, mimetype='image/png')
     except Exception as e:
@@ -146,6 +183,7 @@ def chart(stock_name):
         return jsonify({"error": "Failed to generate chart"}), 500
 
 @app.route('/invest-stock', methods=['POST'])
+@login_session_check
 def invest_stock():
     """API endpoint to analyze a stock and return investment reports in Markdown format"""
     data = request.get_json()
@@ -167,5 +205,5 @@ def invest_stock():
 
 if __name__ == "__main__":
     load_dotenv()
-    
+
     app.run(debug=True)

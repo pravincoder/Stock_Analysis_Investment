@@ -8,7 +8,6 @@ params = {"q": stock_name, "quotes_count": 1}
 res = requests.get(url=url, params=params, headers={"User-Agent": user_agent})
 res.raise_for_status()  
 data = res.json()
-stock_symbol = data["quotes"][0]["symbol"]
-stock_names = data["quotes"]
-print(stock_symbol)
-print()
+for n in range(0, 4):
+    stock_symbol = data["quotes"][n]['shortname']
+    print(stock_symbol)

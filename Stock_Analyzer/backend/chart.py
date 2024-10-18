@@ -38,7 +38,7 @@ class ChartData:
         except:
             return f"Error: Unable to fetch the financial data for {symbol}"
         
-    def generate_chart(symbol) -> str:    
+    def generate_bar_chart(symbol) -> str:    
         financial_data, financial_metric = ChartData.chart_data_generation(symbol)
         years = list(financial_data.keys())
         x = np.arange(len(years))
@@ -64,3 +64,4 @@ class ChartData:
         fig.savefig(file_path, format='png')
         plt.close(fig)  # Close the Matplotlib figure to free resources
         return file_path
+    

@@ -68,6 +68,7 @@ dependencies:
     - fsspec==2024.9.0
     - google-api-core==2.19.2
     - google-auth==2.34.0
+    - google-auth-oauthlib==1.2.1
     - google-cloud-aiplatform==1.66.0
     - google-cloud-bigquery==3.25.0
     - google-cloud-core==2.4.1
