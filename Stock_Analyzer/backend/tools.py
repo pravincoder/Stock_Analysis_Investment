@@ -1,11 +1,6 @@
 import json
 import yfinance as yf
 from crewai_tools import tool
-from matplotlib import pyplot as plt
-import numpy as np
-import math
-from chart import ChartData
-from pandas import Timestamp
 
 def value_to_crores(value: int) -> float:
         """Convert a value to crores.
@@ -28,7 +23,7 @@ class YFinanceTools:
             symbol (str): The stock symbol.
 
         Returns:
-            str: JSON containing company profile and overview.
+            json: JSON containing company profile and overview.
         """
         try:
             company_info_full = yf.Ticker(symbol).info
@@ -38,8 +33,8 @@ class YFinanceTools:
             company_info_cleaned = {
                 "Name": company_info_full.get("shortName"),
                 "Symbol": company_info_full.get("symbol"),
-                "Current Stock Price": f"{company_info_full.get('regularMarketPrice', company_info_full.get('currentPrice'))} ",
-                "Market Cap": f"{value_to_crores(company_info_full.get('marketCap'))+ ' Cr'}",
+                "Current Stock Price": company_info_full.get('regularMarketPrice', company_info_full.get('currentPrice')),
+                "Market Cap": str(f"{value_to_crores(company_info_full.get('marketCap'))}+Crs"),
                 "Sector": company_info_full.get("sector"),
                 "Industry": company_info_full.get("industry"),
                 "Address": company_info_full.get("address1"),
@@ -74,19 +69,19 @@ class YFinanceTools:
 
     @tool
     def get_historical_stock_prices(
-        symbol: str, period: str = "3mo", interval: str = "1d"
+        symbol: str, period: str = "1mo", interval: str = "5d"
     ) -> str:
         """Use this function to get the historical stock price for a given symbol.
 
         Args:
             symbol (str): The stock symbol.
             period (str): The period for which to retrieve historical prices. Defaults to "1mo".
-                        Valid periods: 1d,5d,1mo,3mo only.
+                        Valid periods: 1d,5d,1mo, only.
             interval (str): The interval between data points. Defaults to "1d".
-                        Valid intervals: 1d,5d,1wk,1mo,3mo only.
+                        Valid intervals: 1d,5d, only.
 
         Returns:
-          str: The current stock price or error message.
+          json: The current stock price or error message.
         """
         try:
             stock = yf.Ticker(symbol)
@@ -103,7 +98,7 @@ class YFinanceTools:
             symbol (str): The stock symbol.
 
         Returns:
-            str: A JSON string containing fundamental data or an error message.
+            json: A JSON string containing fundamental data or an error message.
                 Keys:
                     - 'symbol': The stock symbol.
                     - 'company_name': The long name of the company.
@@ -126,7 +121,7 @@ class YFinanceTools:
                 "company_name": info.get("longName", ""),
                 "sector": info.get("sector", ""),
                 "industry": info.get("industry", ""),
-                "market_cap": value_to_crores(info.get("marketCap", "N/A")+ ' Cr'),
+                "market_cap": info.get("marketCap", "N/A"),
                 "pe_ratio": info.get("forwardPE", "N/A"),
                 "pb_ratio": info.get("priceToBook", "N/A"),
                 "dividend_yield": info.get("dividendYield", "N/A"),
@@ -147,7 +142,7 @@ class YFinanceTools:
         symbol (str): The stock symbol.
 
         Returns:
-        dict: JSON containing income statements or an empty dictionary.
+        json: JSON containing income statements or an empty dictionary.
         """
         try:
             stock = yf.Ticker(symbol)
@@ -164,7 +159,7 @@ class YFinanceTools:
         symbol (str): The stock symbol.
 
         Returns:
-        dict: JSON containing key financial ratios.
+        json: JSON containing key financial ratios.
         """
         try:
             stock = yf.Ticker(symbol)
@@ -181,7 +176,7 @@ class YFinanceTools:
         symbol (str): The stock symbol.
 
         Returns:
-        str: JSON containing analyst recommendations.
+        json: JSON containing analyst recommendations.
         """
         try:
             stock = yf.Ticker(symbol)
@@ -199,7 +194,7 @@ class YFinanceTools:
         num_stories (int): The number of news stories to return. Defaults to 3.
 
         Returns:
-        str: JSON containing company news and press releases.
+        json: JSON containing company news and press releases.
         """
         try:
             news = yf.Ticker(symbol).news
@@ -208,16 +203,16 @@ class YFinanceTools:
             return f"Error fetching company news for {symbol}: {e}"
 
     @tool
-    def get_technical_indicators(symbol: str, period: str = "3mo") -> str:
+    def get_technical_indicators(symbol: str, period: str = "5d") -> str:
         """Use this function to get technical indicators for a given stock symbol.
 
         Args:
         symbol (str): The stock symbol.
         period (str): The time period for which to retrieve technical indicators.
-            Valid periods: 1d, 5d, 1mo, 3mo. Defaults to 3mo.
+            Valid periods: 1d, 5d, 1mo.
 
         Returns:
-        str: JSON containing technical indicators.
+        json: JSON containing technical indicators.
         """
         try:
             indicators = yf.Ticker(symbol).history(period=period)

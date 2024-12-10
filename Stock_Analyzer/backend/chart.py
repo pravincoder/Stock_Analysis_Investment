@@ -65,3 +65,26 @@ class ChartData:
         plt.close(fig)  # Close the Matplotlib figure to free resources
         return file_path
     
+    def generate_line_chart(symbol) -> str:
+        financial_data, financial_metric = ChartData.chart_data_generation(symbol)
+        years = list(financial_data.keys())
+        x = np.arange(len(years))
+        fig, ax = plt.subplots(figsize=(10, 6))
+        # Create a colormap
+        colors = plt.cm.viridis(np.linspace(0, 1, len(financial_metric)))
+        for i, feature in enumerate(financial_metric):
+            measurement = [financial_data[year][i] for year in years]
+            ax.plot(x, measurement, label=feature, color=colors[i], marker='o')
+        # Set labels and title
+        ax.set_ylabel('Amount in Crores')
+        ax.set_xlabel('Count of Years')
+        ax.set_title(f'Financial Data of {symbol}')
+        ax.set_xticks(x)
+        ax.set_xticklabels(years)
+        ax.legend(loc='upper left', ncol=1)
+        ax.set_ylim(0, math.ceil(max([max(financial_data[year]) for year in years]) / 10) * 10)
+        # Save the figure to the current directory
+        file_path = f"../line_chart.png"
+        fig.savefig(file_path, format='png')
+        plt.close(fig)
+        return file_path

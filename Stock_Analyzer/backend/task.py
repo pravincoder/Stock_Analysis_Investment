@@ -42,6 +42,7 @@ class Stock_bot:
                 -Create a Grouped bar Graph of financial metrics Net Income,Total Revenue,Gross Profit,Total Expenses by using the necessary tools .
                 -Markdown Output: 
                     -![Grouped Bar Chart](http://127.0.0.1:5000/chart/{stock_name})
+                    -![Line Chart](http://127.0.0.1:5000/line_chart/{stock_name})
             ## Financial Analysis:
             -Content:  
                 -Provide an in-depth analysis of the stock's financials based on data from the Financial Agent.

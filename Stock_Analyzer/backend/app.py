@@ -13,16 +13,7 @@ from google_auth_oauthlib.flow import Flow
 # Initialize Flask app
 app = Flask(__name__)
 CORS(app)
-app.secret_key = os.getenv("SECRET_KEY")
 
-# Set google_client_id
-Google_Client_ID = os.getenv("GOOGLE_CLIENT_ID")
-
-flow = Flow.from_client_secrets_file(
-    client_secrets_file= os.path.join(os.getcwd(), '.google_auth.json'),
-    scopes=['https://www.googleapis.com/auth/userinfo.profile', 'https://www.googleapis.com/auth/userinfo.email', 'openid'],
-    redirect_uri='http://localhost:5000/home'
-)
 # Configure logging
 logging.basicConfig(
     level=logging.DEBUG,
@@ -117,15 +108,6 @@ def generate_investment_reports(stock_symbol):
         logger.error(f"Failed to generate investment report for {stock_symbol}: {e}")
         return None
 
-# Login Session check
-def login_session_check(function):
-    def wrapper(*args, **kwargs):
-        if 'google_id' not in session:
-            return redirect(url_for('login'))
-        return function(*args, **kwargs)
-    wrapper.__name__ = function.__name__
-    return wrapper
-
 @app.route('/login')
 def login():
     session['google_id'] = uuid.uuid4()
@@ -141,7 +123,6 @@ def home():
     return "Welcome to Stock Analyzer API!"
 
 @app.route('/analyze-stock', methods=['POST'])
-@login_session_check
 def analyze_stock():
     """API endpoint to analyze a stock and return reports in Markdown format"""
     data = request.get_json()
@@ -161,8 +142,27 @@ def analyze_stock():
         "analysis_report": analysis_report,
     })
 
+@app.route('/line_chart/<stock_name>', methods=['GET'])
+def line_chart(stock_name):
+    """API endpoint to generate and return a stock line chart"""
+    logger.info(f"Received request to generate line chart for stock: {stock_name}")
+
+    if not stock_name:
+        return jsonify({"error": "Stock name is required"}), 400
+
+    stock_symbol = get_stock_symbol(stock_name)
+    if not stock_symbol:
+        return jsonify({"error": "Stock symbol not found"}), 404
+
+    try:
+        image = ChartData.generate_line_chart(stock_symbol)
+        logger.info(f"Generated line chart for {stock_symbol}")
+        return send_file(image, mimetype='image/png')
+    except Exception as e:
+        logger.error(f"Failed to generate line chart for {stock_symbol}: {e}")
+        return jsonify({"error": "Failed to generate line chart"}), 500
+
 @app.route('/chart/<stock_name>', methods=['GET'])
-@login_session_check
 def chart(stock_name):
     """API endpoint to generate and return a stock chart"""
     logger.info(f"Received request to generate chart for stock: {stock_name}")
@@ -183,7 +183,6 @@ def chart(stock_name):
         return jsonify({"error": "Failed to generate chart"}), 500
 
 @app.route('/invest-stock', methods=['POST'])
-@login_session_check
 def invest_stock():
     """API endpoint to analyze a stock and return investment reports in Markdown format"""
     data = request.get_json()
@@ -205,5 +204,4 @@ def invest_stock():
 
 if __name__ == "__main__":
     load_dotenv()
-
     app.run(debug=True)

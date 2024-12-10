@@ -65,7 +65,7 @@ const StockInput = ({ onAnalysisResult, onInvestmentResult, onError }) => {
           placeholder="Enter stock you want to analyze or invest"
           value={stockName}
           onChange={(e) => setStockName(e.target.value)}
-          className="w-full px-6 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg"
+          className="text-l text-gray-500 w-full px-6 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg"
           disabled={loading}
         />
         {errorMessage && (

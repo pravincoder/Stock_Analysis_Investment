@@ -21,7 +21,7 @@ llm = ChatOpenAI(
 """ 
 
 llm = ChatGroq(
-    model="llama-3.1-70b-versatile",
+    model="llama-3.1-8b-instant",
     api_key=os.environ['GROQ_API_KEY'],  # Add Your API Key from (https://console.groq.com/keys)
 )
 
@@ -42,6 +42,7 @@ class Stock_bot_agents:
             ),
             verbose=True,
             llm=llm,
+            max_rpm=29,
         )
 
     def investment_analysis(self,stock_name):
@@ -61,4 +62,5 @@ class Stock_bot_agents:
             ),
             verbose=True,
             llm=llm,
+            max_rpm=29,
         )
